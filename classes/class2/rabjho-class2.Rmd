@@ -4,12 +4,14 @@ author: "Pernille Brams feat. Kathrine Schultz-Nielsen"
 date: "22/2/2024"
 output:
   html_document:
-    toc: true  
+    toc: true
+  pdf_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
+options(Encoding="UTF-8")
 # Setting my root directory to where I have my /data folder etc. (easier for me, but personalise to your own way of working)
 knitr::opts_knit$set(root.dir = "C:\\Users\\Rabjho\\OneDrive\ -\ Aarhus\ universitet\\Methods 2\\methods02-cogsci\\classes")
 
@@ -43,6 +45,9 @@ for (i in 1:10){ # For each i in 1:10...
 }
 
 # your simple loop here
+for (i in 10:1) {
+  print(i)
+}
 ```
 
 I've also made an example of a while loop below. Make your own example below it. If you have no ideas for what to code in your while loop, here's an example you can try to code up:
@@ -56,6 +61,13 @@ while (number < 10){ # While the number is below 10, do the following
 }
 
 # your simple while-loop here
+while (number < 20) {
+  print("the number is below 20, so I still run! (until it isn't true anymore)")
+  print(number)
+  number = number + 7
+  
+}
+
 ```
 
 ## Exercises to practise functions and if-else statements
@@ -66,12 +78,15 @@ Create a function that accepts a temperature in Fahrenheit and returns the tempe
 convert_to_celsius <- function(fahrenheit) {
   # Your code here
   # Hint: Apply the conversion formula within the function
+  ((fahrenheit - 32) * 5 / 9)
 }
 
 # Example of how the final function (when you've written it) should be used:
 # temp_celsius <- convert_to_celsius(68)
 # print(temp_celsius)
 # Expected Output (for fahrenheit = 68): 20
+
+print(convert_to_celsius(69))
 ```
 
 ### Ex. E: Write a function in R that provides clothing advice based on the temperature:
@@ -89,12 +104,21 @@ Use statements if, else if, and else. Google how to set up the syntax with curly
 clothing_advice <- function(temperature) {
   # Your code here
   # Hint: Use if-else statements to check the temperature and return the advice
+  if (temperature > 25) {
+    "Wear a T-shirt."
+  } else if (temperature >= 15 && temperature <= 25) {
+    "Wear a light jacket."
+  } else {
+    "Wear a warm coat."
+  }
 }
 
 # Example of how the final function (when you've written it) should be used:
 # advice <- clothing_advice(20)
 # print(advice)
 # Expected Output (for temperature = 20): "Wear a light jacket."
+advice <- clothing_advice(20)
+print(advice)
 
 ```
 
@@ -122,13 +146,22 @@ We need to record:
 Let's try and write a function:
 ```{r}
 # Function to simulate basketball player
-basketball <- function(){ # starting the function for you
-  
-  # your code here
-  
-}
+basketball <- function(printing = FALSE, shots = character(0)) {
+    # starting the function for you
+    shots <- c(sample(c("hit", "miss"), 1, prob = c(0.6, 0.4), replace = TRUE), shots)
+    if (length(shots) >= 2 && shots[1] == "miss" && shots[2] == "miss") {
+      if (printing) {
+        print(shots)
+      }
+      return(shots)
+    }
+    
+    return(c(basketball(printing = printing, shots=shots), shots))
+    
+  }
+      
 # Example usage of the function, when done
-# basket_sim <- basketball(printing = TRUE)
+basket_sim <- basketball(printing = TRUE)
 
 ```
 
@@ -160,7 +193,7 @@ basketball <- function(){ # starting the function for you
 # your code here
 ```
 
-## Ex. 5.5: Distribution of averages and differences: The heights of men in the United States are approximately normally distributed with mean 69.1 inches and standard deviation 2.9 inches. The heights of women are approximately normally distributed with mean 63.7 inches and standard deviation 2.7 inches. Let x be the average height of 100 randomly sampled men, and y be the average height of 100 randomly sampled women. In R, create 1000 simulations of x − y and plot their histogram. Using the simulations, compute the mean and standard deviation of the distribution of x − y and compare to their exact values.
+## Ex. 5.5: Distribution of averages and differences: The heights of men in the United States are approximately normally distributed with mean 69.1 inches and standard deviation 2.9 inches. The heights of women are approximately normally distributed with mean 63.7 inches and standard deviation 2.7 inches. Let x be the average height of 100 randomly sampled men, and y be the average height of 100 randomly sampled women. In R, create 1000 simulations of x - y and plot their histogram. Using the simulations, compute the mean and standard deviation of the distribution of x - y and compare to their exact values.
 *Hint 1
 
 ```{r}
