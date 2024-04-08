@@ -44,7 +44,8 @@ TODO: create a cost function that returns the sum of squared errors.
 
 ```{r}
 cost_function <- function(alpha, beta, x, y){
-  ss <- 
+  # The error is the difference between the real value y at x and the predicted value alpha + beta*x
+  ss <- sum((y - (alpha + beta*x))^2) 
   return(ss)
 }
 ```
@@ -53,6 +54,7 @@ cost_function <- function(alpha, beta, x, y){
 TODO: Compute the SSE of the model by inspecting the ols_fit variable looking at the residuals.
 
 ```{r}
+sum(ols_fit$residuals^2)
 
 ```
 
@@ -93,7 +95,7 @@ Create a function gradient_desc that compute the gradient of the model depending
 
 ```{r}
 gradient_desc <- function(alpha, beta, x, y){
-  grad_beta <- 
+  grad_beta <- -2 * x * (y - (alpha + beta*x)) # -cost'(beta)
   return (grad_beta)
 }
 ```
@@ -113,7 +115,7 @@ TODO: create a gradient descent step.
 delta <- 0.001
 
 minimize_function <- function(alpha, beta, x, y, delta){
-  new_beta <- 
+  new_beta <- beta - delta * mean(gradient_desc(alpha, beta, x, y))
   return(new_beta)
 }
 ```
@@ -137,7 +139,7 @@ loss <- res %>% as_tibble() %>% rowwise() %>%
   summarise(sse = cost_function(18, beta, data$x, data$y))
 
 res <- res %>% bind_cols(loss) %>%
-  mutate(iteration = seq(1, 100)) %>% as_tibble()
+  mutate(iteration = seq(1, iter)) %>% as_tibble()
 
 res %>% glimpse()
 ```
